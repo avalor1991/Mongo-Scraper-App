@@ -1,7 +1,17 @@
-.view {
+/* .view {
     background: url("https://mdbootstrap.com/img/Photos/Others/img (40).jpg")no-repeat center center;
     background-size: cover;
     height: 100vh;
+} */
+body {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+  background-size: cover;
+  background-attachment: fixed;
+
+  /*Add Background Texture*/
+  background-image: url("https://mdbootstrap.com/img/Photos/Others/img (40).jpg");
 }
 
 .navbar {
@@ -12,6 +22,10 @@
     background-color: #4285F4;
 }
 
+.title{
+  font-weight: bold;
+}
+
 @media only screen and (max-width: 768px) {
     .navbar {
         background-color: #4285F4;
@@ -19,25 +33,27 @@
 }
 
 #wrapper {
-  width: 960px;
+  
   margin-left: auto;
   margin-right: auto;
-  padding-top: 5%;
+  padding-top: 7%;
+  
+  
 }
-/* #articles {
+#articles {
   display: inline-block;
   overflow: auto;
-  width: 40%;
-  height: 200px;
+  height: 700px;
+  
 }
 #notes {
   float: right;
-  width: 30%;
+ 
 }
 textarea, input {
   display: block;
   width: 100%;
-  background-color: #FCF5C7;
+  /* background-color: #FCF5C7; */
 }
 input {
   height: 36px;
@@ -46,4 +62,4 @@ input {
 textarea {
   height: 200px;
   font-size: 18px;
-} */
+}
