@@ -2,23 +2,27 @@ $.getJSON("/articles", function(data) {
   // For each one
   for (var i = 0; i < data.length; i++) {
     // Display the apropos information on the page
-    $("#articles").append("<div class='panel panel-default border'>","<div class='panel-heading' >",
-    
-    "<p class='title'>" + data[i].title +"</p></div>",
-    "<div class='panel-body'>",
-    "<p class='summary'>" + data[i].summary + "<p>",
-    "</div>",
-    "<div>",
-    "<p class='url'>" + data[i].link + "</p>",
-    "</div>",
-    "<a class='btn btn-success save mb-2' data-id='" + data[i]._id + "'>ADD NOTE</a>",
-    "<a class='btn btn-danger save mb-2' id='deleteBtn' data-id='" + data[i]._id + "'>DELETE NOTE</a>",
-    "</div>"
-   
-    );  
+    $("#articles").append(
+      "<div class='panel panel-default border'>",
+      "<div class='panel-heading' >",
+
+      "<p class='title'>" + data[i].title + "</p></div>",
+      "<div class='panel-body'>",
+      "<p class='summary'>" + data[i].summary + "<p>",
+      "</div>",
+      "<div>",
+      "<p class='url'>" + data[i].link + "</p>",
+      "</div>",
+      "<a class='btn btn-success save mb-2' data-id='" +
+        data[i]._id +
+        "'>ADD NOTE</a>",
+      "<a class='btn btn-danger delBtn mb-2' id='deleteBtn' data-id='" +
+        data[i]._id +
+        "'>DELETE NOTE</a>",
+      "</div>"
+    );
   }
 });
-
 
 // Whenever someone clicks a p tag
 $(document).on("click", ".save", function() {
@@ -43,7 +47,13 @@ $(document).on("click", ".save", function() {
       // A textarea to add a new note body
       $("#notes").append("<textarea id='bodyinput' name='body'></textarea>");
       // A button to submit a new note, with the id of the article saved to it
-      $("#notes").append("<button class='btn btn-success save mb-2' data-article='" + data._id + "' data-id='" + data._id + "' id='savenote'>Save Note</button>");
+      $("#notes").append(
+        "<button class='btn btn-success mb-2' data-article='" +
+          data._id +
+          "' data-id='" +
+          data._id +
+          "' id='savenote'>Save Note</button>"
+      );
 
       // If there's a note in the article
       if (data.note) {
@@ -73,14 +83,28 @@ $(document).on("click", "#savenote", function() {
   })
     // With that done
     .then(function(data) {
+      $("#notes").empty();
       // Log the response
       console.log(data);
       // Empty the notes section
-      $("#notes").empty();
     });
-    $("#notes").empty();
- // Also, remove the values entered in the input and textarea for note entry
- $("#titleinput").val("");
- $("#bodyinput").val("");
+  // Also, remove the values entered in the input and textarea for note entry
+  $("#titleinput").val("");
+  $("#bodyinput").val("");
 });
 
+$(document).on("click", ".delBtn", function() {
+  var thisId = $(this).attr("data-id");
+  var articleId = $(this).attr("data-article");
+  $.ajax({
+    method: "POST",
+    url: "/delete/" + thisId + articleId
+  }).then(function(data) {
+    console.log(data);
+    if (data.note) {
+      $("#titleinput").val(data.note.title);
+      $("#bodyinput").val(data.note.body);
+    }
+    $("#notes").empty();
+  });
+});
